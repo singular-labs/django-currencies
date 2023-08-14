@@ -2,12 +2,10 @@
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.utils.encoding import python_2_unicode_compatible
 
 from .managers import CurrencyManager, ExchangeRatesManager
 
 
-@python_2_unicode_compatible
 class Currency(models.Model):
 
     code = models.CharField(_('code'), max_length=3, db_index=True)
@@ -54,8 +52,7 @@ class Currency(models.Model):
 
 
 class DailyCurrencyExchangeRate(models.Model):
-
-    currency = models.ForeignKey(Currency, db_index=True)
+    currency = models.ForeignKey(Currency, db_index=True, on_delete=models.SET_NULL)
     factor = models.DecimalField(_('factor'), max_digits=30, decimal_places=10, default=1.0,
         help_text=_('Specifies the difference of the currency to default one.'))
     date = models.DateField(db_index=True)
