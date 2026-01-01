@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('factor', models.DecimalField(default=1.0, help_text='Specifies the difference of the currency to default one.', verbose_name='factor', max_digits=30, decimal_places=10)),
                 ('date', models.DateField(db_index=True)),
-                ('currency', models.ForeignKey(to='currencies.Currency')),
+                ('currency', models.ForeignKey(to='currencies.Currency', on_delete=models.SET_NULL, null=True)),
             ],
             options={
             },
