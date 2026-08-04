@@ -50,7 +50,9 @@ class Command(BaseCommand):
         l = client.historical(base=code, date=date)
 
         if self.verbose >= 1 and "timestamp" in l:
-            report_datetime = datetime.datetime.fromtimestamp(l["timestamp"]).strftime("%Y-%m-%d %H:%M:%S")
+            # The client parses responses with parse_int=Decimal, so "timestamp" is a Decimal.
+            # Python 3.12+ rejects it: fromtimestamp() requires an int or float.
+            report_datetime = datetime.datetime.fromtimestamp(int(l["timestamp"])).strftime("%Y-%m-%d %H:%M:%S")
             self.stdout.write("Rates last updated on %s" % report_datetime)
 
         if "base" in l:
